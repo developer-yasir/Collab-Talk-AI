@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, MessageSquare, FileText, User, Users, Settings } from 'lucide-react';
+import { LayoutDashboard, MessageSquare, FileText, User, Settings } from 'lucide-react';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -13,13 +13,13 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="w-64 bg-white shadow-lg border-r border-gray-200 flex flex-col">
+    <div className="w-64 md:w-20 lg:w-64 bg-white shadow-lg border-r border-gray-200 flex flex-col transition-all duration-300">
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center">
           <div className="h-8 w-8 rounded-full bg-primary-500 flex items-center justify-center">
             <MessageSquare className="h-5 w-5 text-white" />
           </div>
-          <span className="ml-2 text-xl font-bold text-gray-900">Collab-Talk</span>
+          <span className="ml-2 text-xl font-bold text-gray-900 hidden md:block lg:block">Collab-Talk</span>
         </div>
       </div>
 
@@ -39,7 +39,7 @@ const Sidebar = () => {
                   }`}
                 >
                   <Icon className="h-5 w-5 mr-3" />
-                  {item.label}
+                  <span className="hidden md:block lg:block">{item.label}</span>
                 </Link>
               </li>
             );
@@ -50,7 +50,7 @@ const Sidebar = () => {
       <div className="p-4 border-t border-gray-200">
         <div className="flex items-center text-sm text-gray-500">
           <Settings className="h-4 w-4 mr-2" />
-          <span>Settings</span>
+          <span className="hidden md:block lg:block">Settings</span>
         </div>
       </div>
     </div>
