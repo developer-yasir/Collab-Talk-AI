@@ -1,7 +1,6 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { User, Mail, Lock, CheckCircle } from 'lucide-react';
 
 const Register = () => {
@@ -18,19 +17,19 @@ const Register = () => {
     e.preventDefault();
     setError('');
     setLoading(true);
-
+    
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       setLoading(false);
       return;
     }
-
+    
     if (password.length < 6) {
       setError('Password must be at least 6 characters long');
       setLoading(false);
       return;
     }
-
+    
     try {
       const result = await register(name, email, password);
       if (result.success) {
@@ -59,14 +58,14 @@ const Register = () => {
             Join Collab-Talk and start collaborating with your team today
           </p>
         </div>
-
+        
         <form className="mt-8 space-y-6 bg-white p-6 sm:p-8 rounded-xl shadow-sm border border-gray-200" onSubmit={handleSubmit}>
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-center">
               <span className="mr-2">{error}</span>
             </div>
           )}
-
+          
           <div className="space-y-4">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -89,7 +88,7 @@ const Register = () => {
                 />
               </div>
             </div>
-
+            
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                 Email address
@@ -111,7 +110,7 @@ const Register = () => {
                 />
               </div>
             </div>
-
+            
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
                 Password
@@ -133,7 +132,7 @@ const Register = () => {
                 />
               </div>
             </div>
-
+            
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
                 Confirm Password
@@ -190,13 +189,13 @@ const Register = () => {
               )}
             </button>
           </div>
-
+          
           <div className="text-center">
             <p className="text-sm text-gray-600">
               Already have an account?{' '}
-              <a href="/login" className="font-medium text-primary-600 hover:text-primary-700 underline">
+              <Link to="/login" className="font-medium text-primary-600 hover:text-primary-700 underline">
                 Sign in here
-              </a>
+              </Link>
             </p>
           </div>
         </form>
