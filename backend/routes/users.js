@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User'); // Assuming you'll create this model
+const User = require('../models/User');
 const auth = require('../middlewares/auth');
 
 // @route    POST api/users
@@ -18,18 +18,14 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ msg: 'User already exists' });
     }
 
-    // Create new user
+    // Create new user (password will be hashed automatically in the model)
     user = new User({
       name,
       email,
       password
     });
 
-    // Hash password
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(password, salt);
-
-    // Save user to database
+    // Save user to database (triggers the pre-save middleware to hash the password)
     await user.save();
 
     // Create payload for JWT
@@ -46,7 +42,7 @@ router.post('/', async (req, res) => {
       { expiresIn: '5 days' },
       (err, token) => {
         if (err) throw err;
-        res.json({ 
+        res.json({
           token,
           user: {
             id: user.id,
@@ -64,7 +60,7 @@ router.post('/', async (req, res) => {
 
 // @route    GET api/users
 // @desc     Get all users
-// @access   Public
+// @access   Private
 router.get('/', auth, async (req, res) => {
   try {
     const users = await User.find().select('-password');
