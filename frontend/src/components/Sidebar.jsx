@@ -1,28 +1,58 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { LayoutDashboard, MessageSquare, FileText, User, Users, Settings } from 'lucide-react';
 
 const Sidebar = () => {
+  const location = useLocation();
+
+  const navItems = [
+    { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+    { path: '/chat', icon: MessageSquare, label: 'Chat' },
+    { path: '/workspace', icon: FileText, label: 'Workspace' },
+    { path: '/profile', icon: User, label: 'Profile' },
+  ];
+
   return (
-    <div className="w-64 bg-white shadow-md">
-      <div className="p-4 border-b">
-        <h2 className="text-lg font-semibold">Collab-Talk</h2>
+    <div className="w-64 bg-white shadow-lg border-r border-gray-200 flex flex-col">
+      <div className="p-4 border-b border-gray-200">
+        <div className="flex items-center">
+          <div className="h-8 w-8 rounded-full bg-primary-500 flex items-center justify-center">
+            <MessageSquare className="h-5 w-5 text-white" />
+          </div>
+          <span className="ml-2 text-xl font-bold text-gray-900">Collab-Talk</span>
+        </div>
       </div>
-      <nav className="p-4">
-        <ul className="space-y-2">
-          <li>
-            <Link to="/dashboard" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">Dashboard</Link>
-          </li>
-          <li>
-            <Link to="/chat" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">Chat</Link>
-          </li>
-          <li>
-            <Link to="/workspace" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">Workspace</Link>
-          </li>
-          <li>
-            <Link to="/profile" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">Profile</Link>
-          </li>
+
+      <nav className="flex-1 p-4">
+        <ul className="space-y-1">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = location.pathname === item.path;
+            return (
+              <li key={item.path}>
+                <Link
+                  to={item.path}
+                  className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                    isActive
+                      ? 'bg-primary-50 text-primary-700 border-r-2 border-primary-500'
+                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                  }`}
+                >
+                  <Icon className="h-5 w-5 mr-3" />
+                  {item.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </nav>
+
+      <div className="p-4 border-t border-gray-200">
+        <div className="flex items-center text-sm text-gray-500">
+          <Settings className="h-4 w-4 mr-2" />
+          <span>Settings</span>
+        </div>
+      </div>
     </div>
   );
 };

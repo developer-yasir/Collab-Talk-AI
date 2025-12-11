@@ -14,44 +14,44 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="App">
+        <div className="App h-screen bg-gray-50">
           <Routes>
             <Route path="/" element={<Layout><Home /></Layout>} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            
+
             {/* Protected routes */}
-            <Route 
-              path="/dashboard" 
+            <Route
+              path="/dashboard"
               element={
                 <ProtectedRoute>
                   <Layout><Dashboard /></Layout>
                 </ProtectedRoute>
-              } 
+              }
             />
-            <Route 
-              path="/chat" 
+            <Route
+              path="/chat"
               element={
                 <ProtectedRoute>
                   <Layout><Chat /></Layout>
                 </ProtectedRoute>
-              } 
+              }
             />
-            <Route 
-              path="/workspace" 
+            <Route
+              path="/workspace"
               element={
                 <ProtectedRoute>
                   <Layout><Workspace /></Layout>
                 </ProtectedRoute>
-              } 
+              }
             />
-            <Route 
-              path="/profile" 
+            <Route
+              path="/profile"
               element={
                 <ProtectedRoute>
                   <Layout><Profile /></Layout>
                 </ProtectedRoute>
-              } 
+              }
             />
           </Routes>
         </div>
