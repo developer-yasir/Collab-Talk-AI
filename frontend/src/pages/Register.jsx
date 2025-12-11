@@ -160,11 +160,11 @@ const Register = () => {
           <div className="text-sm">
             <p className="text-gray-600">
               By registering, you agree to our{' '}
-              <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
+              <a href="#" className="font-medium text-primary-600 hover:text-primary-700 underline">
                 Terms of Service
               </a>{' '}
               and{' '}
-              <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
+              <a href="#" className="font-medium text-primary-600 hover:text-primary-700 underline">
                 Privacy Policy
               </a>
               .
@@ -194,7 +194,7 @@ const Register = () => {
           <div className="text-center">
             <p className="text-sm text-gray-600">
               Already have an account?{' '}
-              <a href="/login" className="font-medium text-primary-600 hover:text-primary-500">
+              <a href="/login" className="font-medium text-primary-600 hover:text-primary-700 underline">
                 Sign in here
               </a>
             </p>

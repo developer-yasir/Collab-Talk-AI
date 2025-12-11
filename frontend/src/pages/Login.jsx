@@ -113,7 +113,7 @@ const Login = () => {
             </div>
 
             <div className="text-sm">
-              <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
+              <a href="#" className="font-medium text-primary-600 hover:text-primary-700 underline">
                 Forgot your password?
               </a>
             </div>
@@ -142,7 +142,7 @@ const Login = () => {
           <div className="text-center">
             <p className="text-sm text-gray-600">
               Don't have an account?{' '}
-              <a href="/register" className="font-medium text-primary-600 hover:text-primary-500">
+              <a href="/register" className="font-medium text-primary-600 hover:text-primary-700 underline">
                 Register here
               </a>
             </p>
