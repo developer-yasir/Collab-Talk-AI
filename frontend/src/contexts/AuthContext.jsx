@@ -37,16 +37,16 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await axios.post('/auth/login', { email, password });
       const newToken = res.data.token;
-      
+
       localStorage.setItem('token', newToken);
       setToken(newToken);
       setUser(res.data.user);
-      
+
       return { success: true };
     } catch (error) {
-      return { 
-        success: false, 
-        error: error.response?.data?.msg || 'Login failed' 
+      return {
+        success: false,
+        error: error.response?.data?.msg || 'Login failed'
       };
     }
   };

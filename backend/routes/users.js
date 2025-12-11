@@ -1,9 +1,9 @@
 const express = require('express');
-const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const auth = require('../middlewares/auth');
+const router = express.Router();
 
 // @route    POST api/users
 // @desc     Register user
@@ -18,14 +18,14 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ msg: 'User already exists' });
     }
 
-    // Create new user (password will be hashed automatically in the model)
+    // Create new user
     user = new User({
       name,
       email,
       password
     });
 
-    // Save user to database (triggers the pre-save middleware to hash the password)
+    // Save user to database (password will be hashed automatically)
     await user.save();
 
     // Create payload for JWT
