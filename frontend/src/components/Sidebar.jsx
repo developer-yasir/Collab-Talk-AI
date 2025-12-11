@@ -41,7 +41,7 @@ const Sidebar = () => {
   }, [location.pathname, isMobile]);
 
   // Sidebar container classes for desktop and mobile views
-  const desktopSidebarClasses = `bg-white shadow-lg border-r border-gray-200 flex flex-col ${
+  const desktopSidebarClasses = `bg-white shadow-lg border-r border-gray-200 flex flex-col h-full ${
     isCollapsed ? 'w-20' : 'w-64'
   } transition-all duration-300`;
 
@@ -172,17 +172,17 @@ const Sidebar = () => {
   );
 
   return (
-    <>
-      {/* Desktop Sidebar - Always visible on desktop */}
-      <div className="hidden md:block">
+    <div className="relative">
+      {/* Desktop Sidebar - Always visible on desktop (md and larger screens) */}
+      <div className="hidden md:block fixed top-0 left-0 z-20">
         <DesktopSidebar />
       </div>
-
+      
       {/* Mobile Sidebar - Slide-in panel */}
-      <div className="md:hidden">
+      <div className="md:hidden absolute top-0 left-0 w-full h-full">
         <MobileSidebar />
       </div>
-
+      
       {/* Mobile menu button - Only visible on mobile */}
       <div className="md:hidden fixed top-4 left-4 z-40">
         <button
@@ -192,7 +192,7 @@ const Sidebar = () => {
           <Menu className="h-6 w-6" />
         </button>
       </div>
-    </>
+    </div>
   );
 };
 
