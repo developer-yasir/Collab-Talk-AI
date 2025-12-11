@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, MessageSquare, FileText, User, Menu, X } from 'lucide-react';
+import { LayoutDashboard, MessageSquare, FileText, User, Menu, X, Settings, Users, Activity } from 'lucide-react';
 
 const Sidebar = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -9,10 +9,12 @@ const Sidebar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { path: '/chat', icon: MessageSquare, label: 'Chat' },
-    { path: '/workspace', icon: FileText, label: 'Workspace' },
-    { path: '/profile', icon: User, label: 'Profile' },
+    { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', badge: 3 },
+    { path: '/chat', icon: MessageSquare, label: 'Chat', badge: 5 },
+    { path: '/workspace', icon: FileText, label: 'Workspace', badge: 2 },
+    { path: '/profile', icon: User, label: 'Profile', badge: 0 },
+    { path: '/settings', icon: Settings, label: 'Settings', badge: 0 },
+    { path: '/users', icon: Users, label: 'Team', badge: 7 },
   ];
 
   // Check if mobile view
@@ -41,7 +43,7 @@ const Sidebar = () => {
   }, [location.pathname, isMobile]);
 
   // Sidebar container classes for desktop and mobile views
-  const desktopSidebarClasses = `bg-white shadow-lg border-r border-gray-200 flex flex-col h-full ${
+  const desktopSidebarClasses = `bg-gradient-to-b from-white to-gray-50 shadow-lg border-r border-gray-200 flex flex-col h-full ${
     isCollapsed ? 'w-20' : 'w-64'
   } transition-all duration-300`;
 
@@ -54,11 +56,11 @@ const Sidebar = () => {
     <div className={desktopSidebarClasses}>
       <div className="p-4 border-b border-gray-200">
         <Link to="/" className="flex items-center">
-          <div className="h-8 w-8 rounded-full bg-primary-500 flex items-center justify-center">
+          <div className="h-8 w-8 rounded-full bg-gradient-to-r from-primary-500 to-primary-600 flex items-center justify-center shadow-md">
             <MessageSquare className="h-5 w-5 text-white" />
           </div>
           {isCollapsed ? null : (
-            <span className="ml-2 text-xl font-bold text-gray-900">
+            <span className="ml-2 text-xl font-bold text-gray-800">
               Collab-Talk
             </span>
           )}
@@ -75,14 +77,25 @@ const Sidebar = () => {
               <li key={item.path}>
                 <Link
                   to={item.path}
-                  className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                  className={`flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all ${
                     isActive
-                      ? 'bg-primary-50 text-primary-700 border-r-2 border-primary-500'
-                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                  } ${isCollapsed ? 'justify-center' : 'justify-start'}`}
+                      ? 'bg-gradient-to-r from-primary-50 to-primary-100 text-primary-700 border-l-4 border-primary-500 shadow-sm'
+                      : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:shadow-sm'
+                  } ${isCollapsed ? 'justify-center' : 'justify-start'} relative`}
                 >
                   <Icon className={`h-5 w-5 ${isCollapsed ? '' : 'mr-3'}`} />
                   {!isCollapsed && <span>{item.label}</span>}
+                  {!isCollapsed && item.badge > 0 && (
+                    <span className="ml-auto bg-red-500 text-white text-xs font-medium px-2 py-0.5 rounded-full">
+                      {item.badge}
+                    </span>
+                  )}
+                  {/* Badge in collapsed state */}
+                  {isCollapsed && item.badge > 0 && (
+                    <span className="absolute top-1 right-1 bg-red-500 text-white text-xs font-medium h-5 w-5 rounded-full flex items-center justify-center">
+                      {item.badge}
+                    </span>
+                  )}
                 </Link>
               </li>
             );
@@ -94,16 +107,16 @@ const Sidebar = () => {
       <div className="p-4 border-t border-gray-200">
         <button
           onClick={toggleCollapse}
-          className="flex items-center text-sm text-gray-500 hover:text-gray-700 w-full"
+          className="flex items-center text-sm text-gray-600 hover:text-primary-600 w-full font-medium"
         >
           {isCollapsed ? (
             <div className="flex items-center">
-              <span className="text-xs mr-1">→</span>
+              <span className="text-lg mr-1">→</span>
               <span className="sr-only">Expand</span>
             </div>
           ) : (
             <div className="flex items-center">
-              <span className="text-xs mr-2">←</span>
+              <span className="text-lg mr-2">←</span>
               <span>Collapse</span>
             </div>
           )}
@@ -126,10 +139,10 @@ const Sidebar = () => {
       <div className={mobileSidebarClasses}>
         <div className="p-4 border-b border-gray-200 flex justify-between items-center">
           <Link to="/" className="flex items-center">
-            <div className="h-8 w-8 rounded-full bg-primary-500 flex items-center justify-center">
+            <div className="h-8 w-8 rounded-full bg-gradient-to-r from-primary-500 to-primary-600 flex items-center justify-center shadow-md">
               <MessageSquare className="h-5 w-5 text-white" />
             </div>
-            <span className="ml-2 text-xl font-bold text-gray-900">
+            <span className="ml-2 text-xl font-bold text-gray-800">
               Collab-Talk
             </span>
           </Link>
@@ -153,14 +166,19 @@ const Sidebar = () => {
                   <Link
                     to={item.path}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                    className={`flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all ${
                       isActive
-                        ? 'bg-primary-50 text-primary-700 border-r-2 border-primary-500'
-                        : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                    }`}
+                        ? 'bg-gradient-to-r from-primary-50 to-primary-100 text-primary-700 border-l-4 border-primary-500 shadow-sm'
+                        : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:shadow-sm'
+                    } relative`}
                   >
                     <Icon className="h-5 w-5 mr-3" />
                     <span>{item.label}</span>
+                    {item.badge > 0 && (
+                      <span className="ml-auto bg-red-500 text-white text-xs font-medium px-2 py-0.5 rounded-full">
+                        {item.badge}
+                      </span>
+                    )}
                   </Link>
                 </li>
               );
@@ -177,16 +195,16 @@ const Sidebar = () => {
       <div className="hidden md:block fixed top-0 left-0 z-20">
         <DesktopSidebar />
       </div>
-      
+
       {/* Mobile Sidebar - Slide-in panel */}
       <div className="md:hidden absolute top-0 left-0 w-full h-full">
         <MobileSidebar />
       </div>
-      
+
       {/* Mobile menu button - Only visible on mobile */}
       <div className="md:hidden fixed top-4 left-4 z-40">
         <button
-          className="p-2 rounded-md text-gray-400 hover:text-gray-500 bg-white shadow-lg"
+          className="p-2 rounded-full bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg hover:from-primary-600 hover:to-primary-700 transition-all"
           onClick={() => setMobileMenuOpen(true)}
         >
           <Menu className="h-6 w-6" />
