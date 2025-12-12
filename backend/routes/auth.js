@@ -1,9 +1,13 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const util = require('util');
 const User = require('../models/User');
 const router = express.Router();
 const auth = require('../middlewares/auth');
+
+// Convert jwt.sign to return a promise
+const jwtSign = util.promisify(jwt.sign);
 
 // @route    POST api/auth/login
 // @desc     Authenticate user & get token
@@ -36,26 +40,31 @@ router.post('/login', async (req, res) => {
       }
     };
 
+    // Check if JWT_SECRET is defined
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET is not defined in environment variables');
+      return res.status(500).json({ msg: 'Server configuration error: JWT_SECRET not defined' });
+    }
+
     // Sign and return token
-    jwt.sign(
+    const token = await jwtSign(
       payload,
       process.env.JWT_SECRET,
-      { expiresIn: '5 days' },
-      (err, token) => {
-        if (err) throw err;
-        res.json({
-          token,
-          user: {
-            id: user.id,
-            name: user.name,
-            email: user.email
-          }
-        });
-      }
+      { expiresIn: '5 days' }
     );
+
+    res.json({
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email
+      }
+    });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
+    console.error('Error during user login:', err);
+    console.error('Error stack:', err.stack);
+    res.status(500).json({ msg: 'Server error', error: err.message });
   }
 });
 
